@@ -30,3 +30,84 @@
 
 ---
 
+## 3. Acceptance Criteria
+
+### Feature: Search & Compare Hotels (US-01 & US-02)
+
+**Scenario: Successful hotel search with matching results**
+- **Given** the customer is on the search page
+- **When** the customer enters destination "Alexandria", check-in date, and 2 guests
+- **Then** the system displays a list of available hotels in Alexandria matching the criteria
+
+**Scenario: View similar hotels for price comparison**
+- **Given** the customer is viewing details of "Hotel A" priced at 500 points/night
+- **When** the customer clicks "View Similar Hotels"
+- **Then** the system presents alternative hotels within 5 km range priced between 400 and 600 points
+
+---
+
+### Feature: Purchase Wallet Points (US-03)
+
+**Scenario: Successful points purchase**
+- **Given** the customer has an active logged-in account and a linked wallet
+- **When** the customer selects the "1,000 Points Package" ($200) and completes payment
+- **Then** 1,000 points are added to the customer wallet balance immediately
+
+**Scenario: Insufficient funds payment failure**
+- **Given** the customer attempts to buy points
+- **When** the payment gateway rejects the card due to insufficient balance
+- **Then** the system displays "Payment failed" and wallet points balance remains unchanged
+
+---
+
+### Feature: Direct Room Booking (US-04)
+
+**Scenario: Successful room reservation using points**
+- **Given** a customer with 1,000 wallet points
+- **And** a room at "Steigenberger Hotel" is available for 400 points/night
+- **When** the customer confirms a 2-night booking (800 points total)
+- **Then** 800 points are deducted from the customer wallet balance
+- **And** room availability is decremented by 1
+- **And** a confirmation voucher is generated
+
+**Scenario: Booking attempt with insufficient points**
+- **Given** a customer with 300 wallet points
+- **When** the customer attempts to book a room costing 500 points
+- **Then** the system rejects the booking with message "Insufficient wallet points balance"
+
+---
+
+### Feature: Room & Inventory Management (US-08)
+
+**Scenario: Hotel Admin adds new room inventory**
+- **Given** an authenticated Hotel Admin on the management dashboard
+- **When** the admin adds 5 "Deluxe Sea View" rooms priced at 600 points/night
+- **Then** the new room type appears in the hotel public catalog with 5 available units
+
+---
+
+### Feature: Hotel Bank Payout Setup (US-09)
+
+**Scenario: Hotel Admin links valid IBAN**
+- **Given** an authenticated Hotel Admin setting up financial details
+- **When** the admin enters a valid IBAN and bank account name
+- **Then** the account status changes to "Verified for Direct Payouts"
+
+---
+
+## 4. Non-Functional Requirements (NFRs)
+
+- **NFR-01 (Performance):** Hotel search and similar hotel recommendation queries must return results in less than 2.0 seconds for up to 10,000 listed hotels.
+- **NFR-02 (Security):** All user passwords must be hashed using bcrypt with a cost factor of 12 or higher, and bank details must be encrypted at rest.
+- **NFR-03 (Usability):** A first-time customer must be able to complete a room reservation in under 3 minutes without requiring assistance or training.
+- **NFR-04 (Availability):** The booking and search services must maintain an availability uptime of 99.5% during operating hours.
+
+---
+
+## 5. MVP Scope
+
+The Minimum Viable Product (MVP) for the 10-week release focuses strictly on the core booking lifecycle:
+
+- **Included Stories:** US-01, US-02, US-03, US-04, US-07, US-08, US-09, US-11.
+- **Rationale:** These **Must** stories allow customers to buy points, search, compare, and book rooms directly while allowing hotel admins to list properties, manage rooms, and link bank accounts.
+- **Deferred Stories (Backlog):** US-05, US-06 (event booking), US-10 (off-peak discounts), and US-12 (advanced payout reporting) remain in the backlog for future releases.
