@@ -1,1 +1,60 @@
+@startuml
+title inbook System - Use Case Diagram
+left to right direction
 
+actor "Customer\n" as Customer
+actor "Hotel Admin\n" as HotelAdmin
+actor "System Admin\n" as SystemAdmin
+
+rectangle "inbook System" {
+
+    usecase "Register / Login" as UC_Auth
+    usecase "Link Wallet" as UC_LinkWallet
+    usecase "Purchase Points" as UC_PurchasePoints
+    usecase "Search Hotels by Criteria" as UC_SearchHotels
+    usecase "View Similar Hotels" as UC_SimilarHotels
+    usecase "Check Room Availability" as UC_CheckAvail
+    usecase "Check Points Balance" as UC_CheckPoints
+    usecase "Book Room using Points" as UC_BookRoom
+    usecase "Book Trips & Events" as UC_BookTrips
+
+    usecase "Link Bank Account" as UC_LinkBank
+    usecase "Manage Hotel Branches" as UC_ManageHotels
+    usecase "Manage Room Inventory & Status" as UC_ManageRooms
+    usecase "Add Local Trips & Events" as UC_AddTrips
+
+    usecase "Manage Security & Permissions" as UC_Security
+    usecase "Monitor All Bookings" as UC_MonitorBookings
+    usecase "Supervise Financials & Commission" as UC_SuperviseFin
+    usecase "Resolve Issues & Support" as UC_ResolveIssues
+
+    UC_BookRoom ..> UC_CheckAvail : <<include>>
+    UC_BookRoom ..> UC_CheckPoints : <<include>>
+
+    UC_SimilarHotels ..> UC_SearchHotels : <<extend>>
+    UC_BookTrips ..> UC_BookRoom : <<extend>>
+    UC_AddTrips ..> UC_ManageRooms : <<extend>>
+}
+
+Customer -- UC_Auth
+Customer -- UC_LinkWallet
+Customer -- UC_PurchasePoints
+Customer -- UC_SearchHotels
+Customer -- UC_BookRoom
+
+HotelAdmin -- UC_Auth
+HotelAdmin -- UC_LinkBank
+HotelAdmin -- UC_ManageHotels
+HotelAdmin -- UC_ManageRooms
+
+SystemAdmin -- UC_Auth
+SystemAdmin -- UC_Security
+SystemAdmin -- UC_MonitorBookings
+SystemAdmin -- UC_SuperviseFin
+SystemAdmin -- UC_ResolveIssues
+
+skinparam linetype ortho
+skinparam nodesep 45
+skinparam ranksep 45
+skinparam shadowing false
+@enduml
